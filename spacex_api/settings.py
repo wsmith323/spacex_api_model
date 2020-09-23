@@ -98,13 +98,32 @@ LOGGING = {
     'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
+            'formatter': 'minimal',
+        },
+        'null': {
+            'class': 'logging.NullHandler',
+        }
+    },
+    'formatters': {
+        'minimal': {
+            'format': '[{asctime}] {name}: {message}',
+            'style': '{',
         },
     },
     'root': {
         'handlers': ['console'],
         'level': 'DEBUG' if DEBUG else 'WARNING',
     },
-    #
-    # Would need to configure additional logging in production.
-    #
+    'loggers': {
+        #
+        # Silence logging we don't care about.
+        #
+        'asyncio': {
+            'handlers': ['null'],
+            'propagate': False,
+        }
+        #
+        # Would need to configure additional logging in production.
+        #
+    },
 }
